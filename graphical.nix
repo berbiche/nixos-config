@@ -8,10 +8,22 @@
     ./kde.nix
   ];
 
-  # 
-  hardware.opengl.enable = true;
-  hardware.opengl.extraPackages = with pkgs; [ vaapiIntel ];
-  hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ vaapiIntel ];  
+  # Opengl
+  environment.variables = {
+    #MESA_LOADER_DRIVER_OVERRIDE = "iris";
+    LIBVA_DRIVER_NAME = "iHD";
+    VAAPI_MPEG4_ENABLED = "true";
+  };
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [ vaapiIntel vaapiVdpau libvdpau-va-gl intel-media-driver ];
+    package = (pkgs.mesa.override {
+      galliumDrivers = [ "nouveau" "virgl" "swrast" "iris" ];
+    }).drivers;
+  };
+
 
   security.polkit.enable = true;
   environment.systemPackages = [ pkgs.polkit pkgs.polkit_gnome ];
@@ -47,7 +59,7 @@
   };
 
   services.redshift = {
-    enable = true;
+    enable = false;
     extraOptions = [ "-m wayland" ];
     temperature.day = 6500;
     temperature.night = 5000;
