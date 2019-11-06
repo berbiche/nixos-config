@@ -118,6 +118,7 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   networking.firewall.enable = true;
   networking.firewall.allowPing = true;
+  networking.nameservers = [ "1.1.1.1" "8.8.8.8" "9.9.9.9" ];
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
