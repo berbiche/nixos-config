@@ -96,4 +96,16 @@
       ultimate.enable = true;
     };
   };
+
+  programs.oblogout = {
+    enable = true;
+    buttons = "cancel, logout, restart, shutdown, suspend, hibernate";
+    shutdown = "";
+    suspend = "S";
+    logout = "";
+    lock = "L";
+    hibernate = "h";
+    clock = "swaylock -f -c 0f0f0ff0";
+    clogout = "swaymsg exit";
+  };
 }
