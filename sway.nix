@@ -1,18 +1,41 @@
 { pkgs, ... }:
 
+let
+  url = "https://github.com/colemickens/nixpkgs-wayland/archive/master.tar.gz";
+  waylandOverlay = (import (builtins.fetchTarball url));
+in
 {
+  nixpkgs.overlays = [ waylandOverlay ];
+
   programs.sway = {
     enable = true;
     extraPackages = with pkgs; [
-      grim
-      light
+      xwayland
+
       swayidle
       swaylock
-      xwayland
+      swaybg
+
+      gebaar-libinput  # libinput gestures utility
+      wtype            # xdotool, but for wayland
+
+      grim
+      slurp
+      wf-recorder      # wayland screenrecorder
+
       waybar
       mako
       volnoti
+      kanshi
+      wl-clipboard
+      wdisplays
+
+
+      wofi
       xfce.xfce4-appfinder
+
+      # TODO: more steps required to use this?
+      xdg-desktop-portal-wlr # xdg-desktop-portal backend for wlroots
     ];
 
     extraSessionCommands = ''
@@ -25,21 +48,20 @@
       export _JAVA_AWT_WM_NONREPARENTING=1
     '';
   };
- 
+
   #programs.light.enable = true;
   hardware.brightnessctl.enable = true;
   
-  #services.xserver.displayManager.sddm.enable = true;
-  #services.xserver.displayManager.session = [
-  #  { manage = "desktop";
-  #    name = "Sway";
-  #    start = ''
-  #      ${pkgs.sway}/bin/sway &
-  #      waitPID=$!
-  #    '';
-  #  }
-  #];
+  services.xserver.displayManager.sddm.enable = true;
 
   services.xserver.displayManager.extraSessionFilePackages = [ pkgs.sway ];
 
+  # environment.systemPackages = with pkgs; [
+  #   # other compositors/window-managers
+  #   waybox   # An openbox clone on Wayland
+  #   bspwc    # Wayland compositor based on BSPWM
+  #   cage     # A Wayland kiosk (runs a single app fullscreen)
+  #   wayfire   # 3D wayland compositor
+  #   wf-config # wayfire config manager
+  # ];
 }

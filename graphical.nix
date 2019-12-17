@@ -1,12 +1,28 @@
 { config, lib, pkgs, ... }:
 
+let
+  packages = [ pkgs.playerctl pkgs.polkit pkgs.polkit_gnome ];
+in
 {
   imports = [
     ./sway.nix
     #./xfce.nix
     ./gnome.nix
     ./kde.nix
+    ./steam.nix
   ];
+
+  environment.systemPackages = packages;
+
+  services.xserver.enable = true;
+
+  services.xserver.useGlamor = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.displayManager.gdm.wayland = true;
+  services.xserver.displayManager.sddm.enable = true;
+
+  services.xserver.libinput.enable = true;
+  services.xserver.layout = "us";
 
   # Opengl
   environment.variables = {
@@ -19,17 +35,13 @@
     driSupport = true;
     driSupport32Bit = true;
     extraPackages = with pkgs; [ vaapiIntel vaapiVdpau libvdpau-va-gl intel-media-driver ];
-    package = (pkgs.mesa.override {
-      galliumDrivers = [ "nouveau" "virgl" "swrast" "iris" ];
-    }).drivers;
+    # package = (pkgs.mesa.override {
+    #   galliumDrivers = [ "nouveau" "virgl" "swrast" "iris" ];
+    # }).drivers;
   };
 
 
   security.polkit.enable = true;
-  environment.systemPackages = [ pkgs.polkit pkgs.polkit_gnome ];
-
-  services.xserver.enable = true;
-  services.xserver.libinput.enable = true;
 
   services.flatpak.enable = true;
   xdg.portal.enable = true;
@@ -108,4 +120,7 @@
     clock = "swaylock -f -c 0f0f0ff0";
     clogout = "swaymsg exit";
   };
+
+  #programs.nm-applet.enable = false;
+
 }

@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       <nixpkgs/nixos/modules/hardware/all-firmware.nix>
       ./hardware-configuration.nix
+      ./cachix.nix
       ./zsh.nix
       ./graphical.nix
       ./all-packages.nix
@@ -73,6 +74,9 @@
     dates = "daily";
     options = "--delete-older-than 10d";
   };
+
+  environment.systemPackages = [ pkgs.cachix ];
+  nix.trustedUsers = [ "nicolas" "root" ];
  
   
   networking.hostName = "thixxos"; # Define your hostname.
@@ -88,8 +92,8 @@
 
   # Virtualization
   virtualisation.docker.enable = true;
-  virtualisation.virtualbox.host.enable = true;
-  #virtualisation.virtualbox.guest.enable = true;
+  # virtualisation.virtualbox.host.enable = true;
+  # virtualisation.virtualbox.guest.enable = true;
 
   # Select internationalisation properties.
   i18n = {

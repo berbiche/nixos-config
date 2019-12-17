@@ -37,4 +37,18 @@
   nix.maxJobs = lib.mkDefault 8;
   powerManagement.enable = true;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+
+  systemd.mounts = [
+    { description = "Games HDD";
+      what = "/dev/disk/by-uuid/207acdf3-d70a-424b-9e36-fa719639a068";
+      where = "/mnt/games";
+      type = "ext4";
+      options = "defaults";
+      wantedBy = ["multi-user.target"];
+    }
+    { description = "Games HDD automount";
+      where = "/mnt/games";
+      wantedBy = ["multi-user.target"];
+    }
+  ];
 }
