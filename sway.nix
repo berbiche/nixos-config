@@ -54,7 +54,8 @@ in
   
   services.xserver.displayManager.sddm.enable = true;
 
-  services.xserver.displayManager.extraSessionFilePackages = [ pkgs.sway ];
+  # Deprecated
+  #services.xserver.displayManager.extraSessionFilePackages = [ pkgs.sway ];
 
   # environment.systemPackages = with pkgs; [
   #   # other compositors/window-managers

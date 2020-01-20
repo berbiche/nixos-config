@@ -8,47 +8,63 @@
     [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usbhid" "usb_storage" "uas" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
+  # Boot loader settings
+  
+  # Resume device is the partition with the swapfile in this case
+  boot.resumeDevice = "/dev/mapper/cryptroot";
+
+  # Show Nixos logo while loading
+  boot.plymouth.enable = true;
+
+  boot.loader = {
+    timeout = null;
+    efi = {
+      canTouchEfiVariables = true;
+      efiSysMountPoint = "/boot/efi";
+    };
+    systemd-boot.enable = false;
+    grub = {
+      enable = true;
+      version = 2;
+      enableCryptodisk = true;
+      useOSProber = true;
+      device = "nodev";
+      efiSupport = true;
+    };
+  };
+  boot.kernelParams = [ "resume_offset=403456" ];
+
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/a9cbb95c-523c-4e81-90f1-33b0f4557a32";
+    { device = "/dev/disk/by-uuid/05b0f515-f901-4bf3-afa9-f155cdc7ae7e";
       fsType = "ext4";
     };
 
-  boot.initrd.luks.devices."nixos-enc".device = "/dev/disk/by-uuid/5322a183-e08e-4a0a-a6bb-3ecd50516370";
+  boot.initrd.luks.devices."cryptroot" = {
+    device = "/dev/disk/by-uuid/136355f2-8296-489d-a311-818fd958100e";
+    preLVM = true;
+    allowDiscards = true;
+  };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/863b70ab-bf47-433d-b986-d87a9389e19b";
+    { device = "/dev/disk/by-uuid/6b8e779b-838a-433e-992c-e28ee70c7207";
       fsType = "ext4";
     };
 
   fileSystems."/boot/efi" =
-    { device = "/dev/disk/by-uuid/A54A-B011";
+    { device = "/dev/disk/by-uuid/2B3C-E2E7";
       fsType = "vfat";
     };
 
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/4881627c-6d34-4add-bc3c-d3a0608370f6"; }
-    ];
+  swapDevices = [{
+    device = "/swapfile";
+    #priority = 0;
+    size = 16384;
+  }];
 
-  nix.maxJobs = lib.mkDefault 8;
-  powerManagement.enable = true;
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-
-  systemd.mounts = [
-    { description = "Games HDD";
-      what = "/dev/disk/by-uuid/207acdf3-d70a-424b-9e36-fa719639a068";
-      where = "/mnt/games";
-      type = "ext4";
-      options = "defaults";
-      wantedBy = ["multi-user.target"];
-    }
-    { description = "Games HDD automount";
-      where = "/mnt/games";
-      wantedBy = ["multi-user.target"];
-    }
-  ];
+  nix.maxJobs = lib.mkDefault 16;
 }

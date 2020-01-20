@@ -8,33 +8,37 @@ in
     ./sway.nix
     #./xfce.nix
     ./gnome.nix
-    ./kde.nix
+    #./kde.nix
     ./steam.nix
   ];
 
   environment.systemPackages = packages;
 
+
   services.xserver.enable = true;
+  #services.xserver.tty = 1;
+  services.xserver.displayManager.defaultSession = "sway";
 
   services.xserver.useGlamor = true;
   # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.displayManager.gdm.wayland = true;
   services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.sddm = {
+    #theme = "chili";
+    autoLogin = {
+      enable = false;
+      user = "nicolas";
+    };
+  };
 
   services.xserver.libinput.enable = true;
   services.xserver.layout = "us";
 
-  # Opengl
-  environment.variables = {
-    #MESA_LOADER_DRIVER_OVERRIDE = "iris";
-    LIBVA_DRIVER_NAME = "iHD";
-    VAAPI_MPEG4_ENABLED = "true";
-  };
   hardware.opengl = {
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
-    extraPackages = with pkgs; [ vaapiIntel vaapiVdpau libvdpau-va-gl intel-media-driver ];
+    #extraPackages = with pkgs; [ vaapiIntel vaapiVdpau libvdpau-va-gl intel-media-driver ];
     # package = (pkgs.mesa.override {
     #   galliumDrivers = [ "nouveau" "virgl" "swrast" "iris" ];
     # }).drivers;
@@ -105,21 +109,21 @@ in
       enable = true;
       hinting.enable = true;
       cache32Bit = true;
-      ultimate.enable = true;
     };
   };
 
-  programs.oblogout = {
-    enable = true;
-    buttons = "cancel, logout, restart, shutdown, suspend, hibernate";
-    shutdown = "";
-    suspend = "S";
-    logout = "";
-    lock = "L";
-    hibernate = "h";
-    clock = "swaylock -f -c 0f0f0ff0";
-    clogout = "swaymsg exit";
-  };
+  # RIP oblogout on unstable
+  #programs.oblogout = {
+  #  enable = true;
+  #  buttons = "cancel, logout, restart, shutdown, suspend, hibernate";
+  #  shutdown = "";
+  #  suspend = "S";
+  #  logout = "";
+  #  lock = "L";
+  #  hibernate = "h";
+  #  clock = "swaylock -f -c 0f0f0ff0";
+  #  clogout = "swaymsg exit";
+  #};
 
   #programs.nm-applet.enable = false;
 

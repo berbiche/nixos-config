@@ -16,6 +16,7 @@
       ./physical.nix
       ./services.nix
       ./wireguard.nix
+      ./host/g-word.nix
     ];
 
   # This value determines the NixOS release with which your system is to be
@@ -24,48 +25,12 @@
   # should.
   system.stateVersion = "19.09"; # Did you read the comment?
 
-  #boot.plymouth.enable = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
   
   boot.cleanTmpDir = true;
-  # Boot loader settings
-  
-  # Resume device can be a swapfile
-  #boot.resumeDevice = "/dev/mapper/nixos-enc";
-
-  boot.loader = {
-    efi = {
-      canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot/efi";
-    };
-    systemd-boot.enable = false;
-    grub = {
-      enable = true;
-      version = 2;
-      enableCryptodisk = true;
-      useOSProber = true;
-      device = "nodev";
-      efiSupport = true;
-#       gfxmodeEfi = "1024x768";
-    };
-  };
-#   boot.initrd.luks = {
-#     cryptoModules = [ "aes" "xts" "sha512" ];
-#     yubikeySupport = true;
-#     devices = [ {
-#       name = "nixos-enc";
-#       preLVM = false;
-#       yubikey = {
-#         slot = 2;
-#         twoFactor = false;
-#         storage.device = "/dev/disk/by-partuuid/f6a9cde0-5728-46d1-aaa3-eae945f76aae";
-#       };
-#     } ];
-#   };
 
   # FS settings
-#   fileSystems."/".options = [ "noatime" "nodiratime" ];
-#   fileSystems."/boot/efi".options = [ "defaults,noauto" ];
+  fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
   
   
   # Automatic GC of nix files
@@ -79,7 +44,7 @@
   nix.trustedUsers = [ "nicolas" "root" ];
  
   
-  networking.hostName = "thixxos"; # Define your hostname.
+  networking.hostName = "g-word"; # Define your hostname.
   networking.networkmanager.enable = true;
 
   hardware.bluetooth.enable = true;
@@ -96,11 +61,9 @@
   # virtualisation.virtualbox.guest.enable = true;
 
   # Select internationalisation properties.
-  i18n = {
-    consoleFont = "Lat2-Terminus16";
-    consoleKeyMap = "us";
-    defaultLocale = "en_CA.UTF-8";
-  };
+  i18n.defaultLocale = "en_CA.UTF-8";
+  console.font = "Lat2-Terminus16";
+  console.keyMap = "us";
 
   # Set your time zone.
   time.timeZone = "America/Montreal";
@@ -117,11 +80,11 @@
   # programs.mtr.enable = true;
   #programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
   networking.firewall.enable = true;
   networking.firewall.allowPing = true;
+  # Open ports in the firewall.
+  networking.firewall.allowedTCPPorts = [ 21027 ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
   networking.nameservers = [ "1.1.1.1" "8.8.8.8" "9.9.9.9" ];
 
   # Enable CUPS to print documents.
@@ -145,6 +108,8 @@
     extraGroups = [ "wheel" "networkmanager" "input" "audio" "video" "docker" "vboxusers" ];
   };
 
-  environment.variables = { EDITOR = "nvim"; };
-
+  security.sudo.extraConfig = ''
+    Defaults:%wheel insults
+    Defaults !insults
+  '';
 }
