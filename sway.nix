@@ -30,6 +30,9 @@ in
       wl-clipboard
       wdisplays
 
+      # oblogout alternative
+      wlogout
+
 
       wofi
       xfce.xfce4-appfinder
