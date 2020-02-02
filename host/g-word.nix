@@ -11,6 +11,12 @@
 
   environment.systemPackages = with pkgs; [ linuxPackages.rtlwifi_new ];
 
+  services.kmscon = {
+    enable = true;
+    autologinUser = "nicolas";
+    hwRender = true;
+  };
+
   fileSystems."/mnt/games" =
     { device = "/dev/disk/by-uuid/D896285496283602";
       fsType = "ntfs";
