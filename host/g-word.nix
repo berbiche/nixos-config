@@ -20,6 +20,6 @@
   fileSystems."/mnt/games" =
     { device = "/dev/disk/by-uuid/D896285496283602";
       fsType = "ntfs";
-      options = [ "rw" "noatime" "nodiratime" "uid=1000" "gid=1000" "dmask=007" "fmask=007" "big_writes" ];
+      options = [ "auto" "nofail" "remove_hiberfile" "noatime" "nodiratime" "uid=1000" "gid=1000" "dmask=007" "fmask=007" "big_writes" ];
     };
 }
