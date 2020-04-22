@@ -38,6 +38,7 @@ in
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
+    extraPackages = with pkgs; [ libva ];
     #extraPackages = with pkgs; [ vaapiIntel vaapiVdpau libvdpau-va-gl intel-media-driver ];
     # package = (pkgs.mesa.override {
     #   galliumDrivers = [ "nouveau" "virgl" "swrast" "iris" ];
