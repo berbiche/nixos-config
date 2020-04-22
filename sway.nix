@@ -1,7 +1,13 @@
 { pkgs, ... }:
 
 let
-  url = "https://github.com/colemickens/nixpkgs-wayland/archive/master.tar.gz";
+  url = rec {
+    # Depends on Wayland 1.18.0 which isn't in nixos 20.03
+    #rev = "5219af1f4f8edaadeb1e41053c27a420140cdc80";
+    rev = "master";
+    host = "https://github.com/colemickens/nixpkgs-wayland/archive";
+    url = "${host}/${rev}.tar.gz";
+  }.url;
   waylandOverlay = (import (builtins.fetchTarball url));
 in
 {
@@ -11,6 +17,8 @@ in
     enable = true;
     extraPackages = with pkgs; [
       xwayland
+
+      brightnessctl
 
       swayidle
       swaylock
@@ -53,10 +61,7 @@ in
   };
 
   #programs.light.enable = true;
-  hardware.brightnessctl.enable = true;
   
-  services.xserver.displayManager.sddm.enable = true;
-
   # Deprecated
   #services.xserver.displayManager.extraSessionFilePackages = [ pkgs.sway ];
 
