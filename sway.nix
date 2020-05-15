@@ -65,6 +65,11 @@ in
       # Fix for some Java AWT applications (e.g. Android Studio),
       # use this if they aren't displayed properly:
       export _JAVA_AWT_WM_NONREPARENTING=1
+      # Fix "Firefox is already running, but not responding. To open..."
+      export MOZ_DBUS_REMOTE=1
+      export XDG_CURRENT_DESKTOP=sway
+
+      systemctl --user import-environment
     '';
   };
 
