@@ -1,10 +1,10 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    #(steam.override { nativeOnly = true; })
-    steam
-    steam-run
-    playonlinux
+    (steam.override { 
+      extraPkgs = pkgs: [ mono gtk3 gtk3-x11 libgdiplus zlib ];
+      nativeOnly = true;
+    }).run
   ];
 
   nixpkgs.config.allowUnfree = true;
