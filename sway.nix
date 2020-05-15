@@ -15,6 +15,14 @@ in
 
   programs.sway = {
     enable = true;
+
+    wrapperFeatures = {
+      # Fixes GTK applications under Sway
+      gtk = true;
+      # To run Sway with dbus-run-session
+      base = true;
+    };
+
     extraPackages = with pkgs; [
       xwayland
 
