@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  boot.kernelParams = [ "amd_iommu=pt" "iommu=soft" ];
+  boot.kernelParams = [ "amd_iommu=pt" "iommu=soft" "nordrand" ];
   services.xserver.videoDrivers = [ "amdgpu" ];
   hardware.cpu.amd.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
