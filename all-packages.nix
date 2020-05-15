@@ -1,6 +1,12 @@
 { pkgs, ... }:
 
+let
+  moz_overlay = import (builtins.fetchTarball https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz);
+in
+
 {
+  nixpkgs.overlays = [ moz_overlay ];
+
   environment.systemPackages = with pkgs; [
 
     wget curl aria
@@ -21,8 +27,9 @@
     
     traceroute telnet tcpdump whois dnsutils mtr
         
-    neovim firefox evince alacritty thunderbird libreoffice kitty
+    neovim firefox-bin-unwrapped evince alacritty thunderbird libreoffice kitty
+    latest.firefox-nightly-bin
     
-    docker-compose wireguard
+    docker-compose
   ];
 }
