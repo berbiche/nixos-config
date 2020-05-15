@@ -22,13 +22,23 @@ in
   services.xserver.useGlamor = true;
   # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.displayManager.gdm.wayland = true;
-  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.sddm.enable = false;
   services.xserver.displayManager.sddm = {
     #theme = "chili";
     autoLogin = {
       enable = false;
       user = "nicolas";
     };
+  };
+  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.displayManager.lightdm = {
+    #theme = "chili";
+    autoLogin = {
+      enable = true;
+      user = "nicolas";
+      timeout = 5;
+    };
+    greeters.enso.enable = true;
   };
 
   services.xserver.libinput.enable = true;
@@ -65,8 +75,6 @@ in
   services.avahi.nssmdns = true;
   services.printing.browsing = true;
   #services.printing.defaultShared = true;
-
-  services.emacs.enable = true;
 
   nixpkgs.config.chromium = {
     #enable = true;
@@ -112,20 +120,5 @@ in
       cache32Bit = true;
     };
   };
-
-  # RIP oblogout on unstable
-  #programs.oblogout = {
-  #  enable = true;
-  #  buttons = "cancel, logout, restart, shutdown, suspend, hibernate";
-  #  shutdown = "";
-  #  suspend = "S";
-  #  logout = "";
-  #  lock = "L";
-  #  hibernate = "h";
-  #  clock = "swaylock -f -c 0f0f0ff0";
-  #  clogout = "swaymsg exit";
-  #};
-
-  #programs.nm-applet.enable = false;
 
 }
