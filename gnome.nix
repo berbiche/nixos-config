@@ -5,9 +5,22 @@
 
   environment.systemPackages = with pkgs; [
     gnome3.dconf
-    gnome3.gdm
     gnome3.gnome-desktop
     gnome3.gnome-session
+    gnome3.gnome-tweaks
+    # To install Gnome extensions using the browser extension
+    chrome-gnome-shell
+    gnomeExtensions.appindicator
+    ## Broken
+    #gnomeExtensions.clipboard-indicator
+    gnomeExtensions.dash-to-panel
+    # Speedup Gnome animations
+    gnomeExtensions.impatience
+    # Show titlebar in the top bar when a window is maximized
+    ## Broken
+    #gnomeExtensions.no-title-bar
+    # Screenshot tool
+    flameshot
   ];
   
   environment.gnome3.excludePackages = with pkgs; [
@@ -17,7 +30,7 @@
     gnome3.evolution
     #gnome3.gedit
     gnome3.gnome-calculator
-    gnome3.gnome-calendar
+    #gnome3.gnome-calendar
     gnome3.gnome-clocks
     gnome3.gnome-contacts
     gnome3.gnome-disk-utility
