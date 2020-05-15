@@ -35,6 +35,14 @@
       useOSProber = true;
       device = "nodev";
       efiSupport = true;
+      extraEntries = ''
+        menuentry "Shutdown" {
+          halt
+        }
+        menuentry "Reboot" {
+          reboot
+        }
+      '';
     };
   };
   boot.kernelParams = [ "resume_offset=403456" ];
