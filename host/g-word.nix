@@ -9,17 +9,35 @@
   hardware.opengl.driSupport = true;
   #hardware.firmware = [ pkgs.amdgpu-navi10-firmware ];
 
-  environment.systemPackages = with pkgs; [ linuxPackages.rtlwifi_new ];
+  #boot.kernelPatches = [ {
+  #  name = "Enable AMD fTPM";
+  #  patch = null;
+  #  extraConfig = ''
+  #    TEE n
+  #    OPTEE n
+  #    TCG_TPM y
+  #    TCG_FTPM_TEE y
+  #  '';
+  #} ];
 
-  services.kmscon = {
-    enable = true;
-    autologinUser = "nicolas";
-    hwRender = true;
-  };
+  environment.systemPackages = with pkgs; [
+    dislocker
+  ];
 
   fileSystems."/mnt/games" =
     { device = "/dev/disk/by-uuid/D896285496283602";
       fsType = "ntfs";
       options = [ "auto" "nofail" "remove_hiberfile" "noatime" "nodiratime" "uid=1000" "gid=1000" "dmask=007" "fmask=007" "big_writes" ];
     };
+
+  virtualisation.virtualbox = {
+    host.enable = false;
+    #host.enableExtensionPack = true;
+    host.headless = false;
+  };
+
+  #programs.java = {
+  #  enable = true;
+  #  package = pkgs.openjdk11;
+  #};
 }
