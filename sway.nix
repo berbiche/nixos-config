@@ -74,13 +74,9 @@ in
   };
 
   #programs.light.enable = true;
-  
-  # Deprecated
-  #services.xserver.displayManager.extraSessionFilePackages = [ pkgs.sway ];
 
   # environment.systemPackages = with pkgs; [
   #   # other compositors/window-managers
-  #   waybox   # An openbox clone on Wayland
   #   bspwc    # Wayland compositor based on BSPWM
   #   cage     # A Wayland kiosk (runs a single app fullscreen)
   #   wayfire   # 3D wayland compositor
