@@ -2,8 +2,11 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
+let
+  host = lib.fileContents ./hostname;
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -16,7 +19,7 @@
       ./physical.nix
       ./services.nix
       ./wireguard.nix
-      ./host/g-word.nix
+      (./. + "/host/${host}.nix")
     ];
 
   nixpkgs.overlays = [ (import ./overrides/dislocker.nix) ];
@@ -25,16 +28,9 @@
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "19.09"; # Did you read the comment?
+  system.stateVersion = "20.09"; # Did you read the comment?
 
-  #boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxPackages_5_5;
-  
   boot.cleanTmpDir = true;
-
-  # FS settings
-  fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
-  
   
   # Automatic GC of nix files
   nix.gc = {
@@ -45,49 +41,23 @@
 
   environment.systemPackages = [ pkgs.cachix ];
   nix.trustedUsers = [ "nicolas" "root" ];
- 
-  
-  networking.hostName = "g-word"; # Define your hostname.
+
+  networking.hostName = host; # Define your hostname.
   networking.networkmanager.enable = true;
 
   hardware.bluetooth.enable = true;
   hardware.bluetooth.package = pkgs.bluez5;
   #hardware.bluetooth.package = pkgs.bluezFull;
-  #hardware.bluetooth.extraConfig = ''
-  #  [General]
-  #  Enable=Source,Sink,Media,Socket
-  #'';
 
   # Virtualization
   virtualisation.docker.enable = true;
-  # virtualisation.virtualbox.host.enable = true;
-  # virtualisation.virtualbox.guest.enable = true;
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_CA.UTF-8";
-  console.font = "Lat2-Terminus16";
-  console.keyMap = "us";
 
   # Set your time zone.
   time.timeZone = "America/Montreal";
   # Location provider
   location.provider = "geoclue2";
-  
-  
-  # Allow installing non-free packages
-  nixpkgs.config.allowUnfree = true;
-
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  #programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
 
   networking.firewall.enable = true;
-  networking.firewall.allowPing = true;
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 21027 ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
   networking.nameservers = [ "1.1.1.1" "8.8.8.8" "9.9.9.9" ];
 
   # Enable CUPS to print documents.
@@ -110,9 +80,4 @@
     group = "nicolas";
     extraGroups = [ "wheel" "networkmanager" "input" "audio" "video" "docker" "vboxusers" ];
   };
-
-  security.sudo.extraConfig = ''
-    Defaults:%wheel insults
-    Defaults !insults
-  '';
 }

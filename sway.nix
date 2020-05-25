@@ -68,6 +68,7 @@ in
       # Fix "Firefox is already running, but not responding. To open..."
       export MOZ_DBUS_REMOTE=1
       export XDG_CURRENT_DESKTOP=sway
+      export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
 
       systemctl --user import-environment
     '';

@@ -22,16 +22,16 @@ in
   services.xserver.useGlamor = true;
   # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.displayManager.gdm.wayland = true;
-  services.xserver.displayManager.sddm.enable = false;
   services.xserver.displayManager.sddm = {
+    enable = false;
     #theme = "chili";
     autoLogin = {
       enable = false;
       user = "nicolas";
     };
   };
-  services.xserver.displayManager.lightdm.enable = true;
   services.xserver.displayManager.lightdm = {
+    enable = true;
     #theme = "chili";
     autoLogin = {
       enable = true;
@@ -77,39 +77,27 @@ in
   #services.printing.defaultShared = true;
 
   nixpkgs.config.chromium = {
-    #enable = true;
     enableWideVine = true;
     useVaapi = true;
     enablePepperFlash = true;
   };
 
-  services.redshift = {
-    enable = false;
-    extraOptions = [ "-m wayland" ];
-    temperature.day = 6500;
-    temperature.night = 5000;
-    brightness.day = "0.8";
-    brightness.night = "0.6";
-  };
-  
   fonts = {
     enableFontDir = true;
-    #enableGhostscriptFonts = true;
+    enableDefaultFonts = true;
 
     fonts = with pkgs; [
       anonymousPro
-      corefonts
-      dejavu_fonts
-      freefont_ttf
       google-fonts
-      inconsolata
+      inconsolata-nerdfont
       liberation_ttf
       noto-fonts
       noto-fonts-emoji
+      nerdfonts
       hasklig
       powerline-fonts
       source-code-pro
-      terminus_font
+      terminus-nerdfont
       ttf_bitstream_vera
       ubuntu_font_family
     ];

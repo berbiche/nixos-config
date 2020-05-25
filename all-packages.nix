@@ -17,7 +17,7 @@ in
     
     exa fd fzf rofi ripgrep tree bc bat
     
-    htop gotop ctop
+    htop gotop ctop ytop
     
     lsof
     
@@ -27,7 +27,7 @@ in
     
     traceroute telnet tcpdump whois dnsutils mtr
         
-    neovim firefox-bin-unwrapped evince alacritty thunderbird libreoffice kitty
+    neovim evince alacritty thunderbird libreoffice kitty
     latest.firefox-nightly-bin
     
     docker-compose
