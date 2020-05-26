@@ -107,11 +107,6 @@
   console.font = "Lat2-Terminus16";
   console.keyMap = "us";
 
-  security.sudo.extraConfig = ''
-    Defaults:%wheel insults
-    Defaults !insults
-  '';
-
   #programs.java = {
   #  enable = true;
   #  package = pkgs.openjdk11;
