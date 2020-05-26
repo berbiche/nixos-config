@@ -92,7 +92,7 @@
   # Open ports in the firewall.
   # Chromium chromecast (port 8010)
   # https://github.com/NixOS/nixpkgs/issues/49630
-  networking.firewall.allowedTCPPorts = [ 8010 21027 ];
+  networking.firewall.allowedTCPPorts = [ 1716 8010 21027 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
 
   virtualisation.libvirtd.enable = true;
