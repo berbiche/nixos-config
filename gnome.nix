@@ -16,6 +16,14 @@
     gnomeExtensions.dash-to-panel
     # Speedup Gnome animations
     gnomeExtensions.impatience
+    # Choose sound output
+    gnomeExtensions.sound-output-device-chooser
+    # Button to control MPRIS players
+    gnomeExtensions.mpris-indicator-button
+    # Change theme to dark gtk automatically
+    gnomeExtensions.night-theme-switcher
+    # Drop-down terminal
+    gnomeExtensions.drop-down-terminal
     # Show titlebar in the top bar when a window is maximized
     ## Broken
     #gnomeExtensions.no-title-bar
