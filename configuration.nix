@@ -1,12 +1,11 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, lib, ... }:
 
 let
   host = lib.fileContents ./hostname;
   user = "nicolas";
+  home-manager-configuration = "/home/nicolas/dotfiles/home.nix";
+  #home-manager = "${builtins.fetchTarball "https://github.com/rycee/home-manager/archive/master.tar.gz"}/nixos";
+  home-manager = /home/nicolas/dev/github.com/home-manager/nixos;
 in
 {
   imports =
@@ -19,6 +18,7 @@ in
       ./all-packages.nix
       ./services.nix
       (./. + "/host/${host}.nix")
+      home-manager
     ];
 
   # This value determines the NixOS release with which your system is to be
@@ -75,8 +75,11 @@ in
     shell = pkgs.zsh;
     uid = 1000;
     group = user;
+    home = "/home/${user}";
     extraGroups = [ "wheel" "networkmanager" "input" "audio" "video" "docker" "vboxusers" ];
   };
+  home-manager.users.${user} = import home-manager-configuration;
+  home-manager.useUserPackages = true;
 
   # Logitech
   hardware.logitech.enable = true;
