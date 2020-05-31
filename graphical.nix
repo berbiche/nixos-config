@@ -5,11 +5,10 @@ let
 in
 {
   imports = [
-    ./sway.nix
-    #./xfce.nix
-    ./gnome.nix
-    #./kde.nix
-    ./steam.nix
+    ./graphical/sway.nix
+    ./graphical/gnome.nix
+    #./graphical/kde.nix
+    ./graphical/steam.nix
   ];
 
   environment.systemPackages = packages;
