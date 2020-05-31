@@ -6,6 +6,7 @@
 
 let
   host = lib.fileContents ./hostname;
+  user = "nicolas";
 in
 {
   imports =
@@ -42,7 +43,7 @@ in
   };
 
   environment.systemPackages = [ pkgs.cachix ];
-  nix.trustedUsers = [ "nicolas" "root" ];
+  nix.trustedUsers = [ user "root" ];
 
   networking.hostName = host; # Define your hostname.
   networking.networkmanager.enable = true;
@@ -75,11 +76,11 @@ in
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.nicolas = {
+  users.users.${user} = {
     isNormalUser = true;
     shell = pkgs.zsh;
     uid = 1000;
-    group = "nicolas";
+    group = user;
     extraGroups = [ "wheel" "networkmanager" "input" "audio" "video" "docker" "vboxusers" ];
   };
 }
