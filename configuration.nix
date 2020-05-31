@@ -18,7 +18,6 @@ in
       ./all-packages.nix
       ./physical.nix
       ./services.nix
-      ./wireguard.nix
       (./. + "/host/${host}.nix")
     ];
 
