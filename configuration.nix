@@ -85,6 +85,12 @@ in
   hardware.logitech.enable = true;
   hardware.logitech.enableGraphical = false;
 
+  # Forward journald logs to VTT 1
+  services.journald.extraConfig = ''
+    FordwardToConsole=yes
+    TTYPath=/dev/tty1
+  '';
+
   # Steelseries headset
   services.udev.extraRules = lib.optionalString config.hardware.pulseaudio.enable ''
     ATTRS{idVendor}=="1038", ATTRS{idProduct}=="12ad", ENV{PULSE_PROFILE_SET}="steelseries-arctis-7-usb-audio.conf"
