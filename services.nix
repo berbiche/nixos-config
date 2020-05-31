@@ -10,4 +10,6 @@
   services.acpid.enable = true;
 
   services.blueman.enable = true;
+
+  # networking.wireguard.enable = true;
 }
