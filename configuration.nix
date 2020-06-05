@@ -4,8 +4,8 @@ let
   host = lib.fileContents ./hostname;
   user = "nicolas";
   home-manager-configuration = "/home/nicolas/dotfiles/home.nix";
-  #home-manager = "${builtins.fetchTarball "https://github.com/rycee/home-manager/archive/master.tar.gz"}/nixos";
-  home-manager = /home/nicolas/dev/github.com/home-manager/nixos;
+  home-manager = "${builtins.fetchTarball "https://github.com/rycee/home-manager/archive/master.tar.gz"}/nixos";
+  #home-manager = /home/nicolas/dev/github.com/home-manager/nixos;
 in
 {
   imports =
@@ -78,8 +78,8 @@ in
     home = "/home/${user}";
     extraGroups = [ "wheel" "networkmanager" "input" "audio" "video" "docker" "vboxusers" ];
   };
-  home-manager.users.${user} = import home-manager-configuration;
-  home-manager.useUserPackages = true;
+  home-manager.users.${user} = home-manager-configuration;
+  home-manager.useUserPackages = false;
 
   # Logitech
   hardware.logitech.enable = true;
