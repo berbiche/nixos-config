@@ -20,7 +20,7 @@ Note that required hardward configuration has to be done before building any hos
     $ echo "thixxos" >> hostname
     ```
 
-3. Add the necessary channels
+3. Add the necessary channels (TODO: automate)
 
    ``` console
    $ sudo nix-channel --add https://nixos.org/channels/nixos-unstable
@@ -29,10 +29,13 @@ Note that required hardward configuration has to be done before building any hos
 
    $ sudo nix-channel --add https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz nixpkgs-mozilla
 
+   $ sudo nix-channel --add https://github.com/colemickens/nixpkgs-wayland/archive/master.tar.gz nixpkgs-wayland
+
    $ sudo nix-channel --list
    home-manager https://github.com/rycee/home-manager/archive/master.tar.gz
    nixos https://nixos.org/channels/nixos-unstable
    nixpkgs-mozilla https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz
+   nixpkgs-wayland https://github.com/colemickens/nixpkgs-wayland/archive/master.tar.gz
 
    $ sudo nix-channel --update
    ```
