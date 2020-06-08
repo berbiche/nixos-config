@@ -20,14 +20,46 @@ Note that required hardward configuration has to be done before building any hos
     $ echo "thixxos" >> hostname
     ```
 
-3. Build the system
+3. Add the necessary channels
 
    ``` console
-   $ sudo nixos-rebuild --upgrade boot -I nixos-config=./configuration.nix
+   $ sudo nix-channel --add https://nixos.org/channels/nixos-unstable
+
+   $ sudo nix-channel --add https://github.com/rycee/home-manager/archive/master.tar.gz home-manager
+
+   $ sudo nix-channel --add https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz nixpkgs-mozilla
+
+   $ sudo nix-channel --list
+   home-manager https://github.com/rycee/home-manager/archive/master.tar.gz
+   nixos https://nixos.org/channels/nixos-unstable
+   nixpkgs-mozilla https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz
+
+   $ sudo nix-channel --update
    ```
 
-4. Reboot in the new system configuration
+4. Build the system
+
+   ``` console
+   $ sudo nixos-rebuild boot -I nixos-config=./configuration.nix
+   these derivations will be built:
+     /nix/store/6dvwa00nx2sx5idq8gg5pq5ym6s7ih0j-nixos-rebuild.drv
+   building '/nix/store/6dvwa00nx2sx5idq8gg5pq5ym6s7ih0j-nixos-rebuild.drv'...
+   building Nix...
+   building the system configuration... 
+   ```
+
+5. Reboot in the new system configuration
 
    ``` console
    $ shutdown -r now
    ```
+
+## Updating
+
+Rebuild with the `--upgrade` switch:
+
+``` console
+$ sudo nixos-rebuild --upgrade -I nixos-config=./configuration.nix
+```
+
+The path to the `configuration.nix` can either be relative or absolute.

@@ -4,7 +4,6 @@ let
   host = lib.fileContents ./hostname;
   user = "nicolas";
   home-manager-configuration = "/home/nicolas/dotfiles/home.nix";
-  home-manager = "${builtins.fetchTarball "https://github.com/rycee/home-manager/archive/master.tar.gz"}/nixos";
   #home-manager = /home/nicolas/dev/github.com/home-manager/nixos;
 in
 {
@@ -18,7 +17,7 @@ in
       ./all-packages.nix
       ./services.nix
       (./. + "/host/${host}.nix")
-      home-manager
+      <home-manager/nixos>
     ];
 
   # This value determines the NixOS release with which your system is to be
