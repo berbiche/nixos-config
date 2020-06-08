@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   url = rec {
@@ -73,6 +73,13 @@ in
       systemctl --user import-environment
     '';
   };
+
+  xdg.portal = {
+    enable = lib.mkDefault true;
+    extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+    gtkUsePortal = true;
+  };
+  services.pipewire.enable = lib.mkDefault true;
 
   #programs.light.enable = true;
 
