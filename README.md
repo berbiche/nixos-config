@@ -1,9 +1,7 @@
-# nixos-config
-My configuration for NixOS.
+# nixos-config (ARCHIVED)
 
-I'll eventually get around to cleaning this up.
-
-See my [dotfiles](https://github.com/berbiche/dotfiles) configuration.
+See my [dotfiles](https://github.com/berbiche/dotfiles) configuration
+for my entire system configuration.
 
 ## Building
 
