@@ -102,7 +102,7 @@ in
     ];
 
     fontconfig = {
-      enable = true;
+      enable = lib.mkForce true;
       hinting.enable = true;
       cache32Bit = true;
     };
