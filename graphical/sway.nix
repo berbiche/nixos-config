@@ -75,11 +75,11 @@ in
   };
 
   xdg.portal = {
-    enable = lib.mkDefault true;
+    enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
     gtkUsePortal = true;
   };
-  services.pipewire.enable = lib.mkDefault true;
+  services.pipewire.enable = true;
 
   #programs.light.enable = true;
 

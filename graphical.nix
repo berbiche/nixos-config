@@ -48,24 +48,17 @@ in
     driSupport = true;
     driSupport32Bit = true;
     extraPackages = with pkgs; [ libva ];
-    #extraPackages = with pkgs; [ vaapiIntel vaapiVdpau libvdpau-va-gl intel-media-driver ];
-    # package = (pkgs.mesa.override {
-    #   galliumDrivers = [ "nouveau" "virgl" "swrast" "iris" ];
-    # }).drivers;
   };
 
 
   security.polkit.enable = true;
 
   services.flatpak.enable = true;
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = lib.optional (! config.services.xserver.desktopManager.gnome3.enable)
-    [ pkgs.xdg-desktop-portal-gtk ];
-  #xdg.portal.extraPortals = 
-  #  let 
-  #    not-exist = all (x: x != pkgs.xdg-desktop-portal-gtk) xdg.portal.extraPortals;
-  #  in optionals not-exist [ pkgs.xdg-desktop-portal-gtk ]
-  
+  xdg = {
+    icons.enable = true;
+    portal.enable = true;
+    portal.gtkUsePortal = true;
+  };
 
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.hplip ];
@@ -73,7 +66,6 @@ in
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
   services.printing.browsing = true;
-  #services.printing.defaultShared = true;
 
   nixpkgs.config.chromium = {
     enableWideVine = true;
